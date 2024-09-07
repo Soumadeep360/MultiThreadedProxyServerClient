@@ -39,7 +39,7 @@ int port_number = 8080;				// Default Port
 int proxy_socketId;					// socket descriptor of proxy server
 pthread_t tid[MAX_CLIENTS];         //array to store the thread ids of clients
 sem_t seamaphore;	                //if client requests exceeds the max_clients this seamaphore puts the
-                                    //waiting threads to sleep and wakes them when traffic on queue decreases
+//waiting threads to sleep and wakes them when traffic on queue decreases
 //sem_t cache_lock;			       
 pthread_mutex_t lock;               //lock is used for locking the cache
 
@@ -131,7 +131,7 @@ int connectRemoteServer(char* host_addr, int port_num)
 		fprintf(stderr, "Error in connecting !\n"); 
 		return -1;
 	}
-	// free(host_addr);
+	// free(host_addr);mae
 	return remoteSocket;
 }
 
@@ -383,6 +383,10 @@ int main(int argc, char * argv[]) {
 	printf("Setting Proxy Server Port : %d\n",port_number);
 
     //creating the proxy socket
+	//AF_INET indicates that the socket will use the IPv4 protocol.
+	//SOCK_STREAM indicates that this will be a TCP (Transmission Control Protocol) socket.
+	//0 indicates by default sock_stream uses TCP protocol.
+	
 	proxy_socketId = socket(AF_INET, SOCK_STREAM, 0);
 
 	if( proxy_socketId < 0)
