@@ -27,7 +27,7 @@ struct cache_element{
     char* data;         //data stores response
     int len;          //length of data i.e.. sizeof(data)...
     char* url;        //url stores the request
-	time_t lru_time_track;    //lru_time_track stores the latest time the element is  accesed
+	time_t lru_time_track;    //lru_time_track stores the latest time the element is accesed
     cache_element* next;    //pointer to next element
 };
 
@@ -401,7 +401,7 @@ int main(int argc, char * argv[]) {
 
 	bzero((char*)&server_addr, sizeof(server_addr));  
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(port_number); // Assigning port to the Proxy
+	server_addr.sin_port = htons(port_number); // Assigning port to the Proxy. "htons" converts the port number to network byte order
 	server_addr.sin_addr.s_addr = INADDR_ANY; // Any available adress assigned
 
     // Binding the socket
@@ -446,7 +446,7 @@ int main(int argc, char * argv[]) {
 		struct sockaddr_in* client_pt = (struct sockaddr_in*)&client_addr;
 		struct in_addr ip_addr = client_pt->sin_addr;
 		char str[INET_ADDRSTRLEN];										// INET_ADDRSTRLEN: Default ip address size
-		inet_ntop( AF_INET, &ip_addr, str, INET_ADDRSTRLEN );
+		inet_ntop( AF_INET, &ip_addr, str, INET_ADDRSTRLEN ); //inet_ntop(AF_INET, &ip_addr, str, INET_ADDRSTRLEN); converts the IP address from binary to text form.
 		printf("Client is connected with port number: %d and ip address: %s \n",ntohs(client_addr.sin_port), str);
 		//printf("Socket values of index %d in main function is %d\n",i, client_socketId);
 		pthread_create(&tid[i],NULL,thread_fn, (void*)&Connected_socketId[i]); // Creating a thread for each client accepted
@@ -496,8 +496,7 @@ void remove_cache_element(){
     int temp_lock_val = pthread_mutex_lock(&lock);
 	printf("Remove Cache Lock Acquired %d\n",temp_lock_val); 
 	if( head != NULL) { // Cache != empty
-		for (q = head, p = head, temp =head ; q -> next != NULL; 
-			q = q -> next) { // Iterate through entire cache and search for oldest time track
+		for (q = head, p = head, temp =head ; q -> next != NULL; q = q -> next) { // Iterate through entire cache and search for oldest time track
 			if(( (q -> next) -> lru_time_track) < (temp -> lru_time_track)) {
 				temp = q -> next;
 				p = q;
@@ -508,8 +507,7 @@ void remove_cache_element(){
 		} else {
 			p->next = temp->next;	
 		}
-		cache_size = cache_size - (temp -> len) - sizeof(cache_element) - 
-		strlen(temp -> url) - 1;     //updating the cache size
+		cache_size = cache_size - (temp -> len) - sizeof(cache_element) - strlen(temp -> url) - 1;     //updating the cache size
 		free(temp->data);     		
 		free(temp->url); // Free the removed element 
 		free(temp);
@@ -556,7 +554,7 @@ int add_cache_element(char* data,int size,char* url){
 		// free(data);
 		// printf("--\n");
 		// free(url);
-        return 1;
+        return 1;	
     }
     return 0;
 }
