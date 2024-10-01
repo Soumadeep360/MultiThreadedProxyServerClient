@@ -387,7 +387,7 @@ int main(int argc, char * argv[]) {
 	//SOCK_STREAM indicates that this will be a TCP (Transmission Control Protocol) socket.
 	//0 indicates by default sock_stream uses TCP protocol.
 	
-	proxy_socketId = socket(AF_INET, SOCK_STREAM, 0);
+	proxy_socketId = socket(AF_INET, SOCK_STREAM, 0);   //it returns a non-ngeative socket descripor(similar to file desprictor)
 
 	if( proxy_socketId < 0)
 	{
