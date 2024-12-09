@@ -27,7 +27,7 @@ struct cache_element{
     char* data;         //data stores response
     int len;          //length of data i.e.. sizeof(data)...
     char* url;        //url stores the request
-	time_t lru_time_track;    //lru_time_track stores the latest time the element is accesed
+    time_t lru_time_track;    //lru_time_track stores the latest time the element is accesed
     cache_element* next;    //pointer to next element
 };
 
@@ -239,7 +239,7 @@ void* thread_fn(void* socketNew)
 	int p;
 	sem_getvalue(&seamaphore,&p);
 	printf("semaphore value:%d\n",p);
-    int* t= (int*)(socketNew);
+        int* t= (int*)(socketNew);
 	int socket=*t;           // Socket is socket descriptor of the connected Client
 	int bytes_send_client,len;	  // Bytes Transferred
 
@@ -366,8 +366,8 @@ int main(int argc, char * argv[]) {
 	int client_socketId, client_len; // client_socketId == to store the client socket id
 	struct sockaddr_in server_addr, client_addr; // Address of client and server to be assigned
 
-    sem_init(&seamaphore,0,MAX_CLIENTS); // Initializing seamaphore and lock
-    pthread_mutex_init(&lock,NULL); // Initializing lock for cache
+        sem_init(&seamaphore,0,MAX_CLIENTS); // Initializing seamaphore and lock
+        pthread_mutex_init(&lock,NULL); // Initializing lock for cache
     
 
 	if(argc == 2)        //checking whether two arguments are received or not
@@ -382,7 +382,7 @@ int main(int argc, char * argv[]) {
 
 	printf("Setting Proxy Server Port : %d\n",port_number);
 
-    //creating the proxy socket
+      //creating the proxy socket
 	//AF_INET indicates that the socket will use the IPv4 protocol.
 	//SOCK_STREAM indicates that this will be a TCP (Transmission Control Protocol) socket.
 	//0 indicates by default sock_stream uses TCP protocol.
@@ -462,7 +462,7 @@ cache_element* find(char* url){
     cache_element* site=NULL;
 	//sem_wait(&cache_lock);
     int temp_lock_val = pthread_mutex_lock(&lock);
-	printf("Remove Cache Lock Acquired %d\n",temp_lock_val); 
+    printf("Remove Cache Lock Acquired %d\n",temp_lock_val); 
     if(head!=NULL){
         site = head;
         while (site!=NULL)
@@ -482,9 +482,9 @@ cache_element* find(char* url){
     printf("\nurl not found\n");
 	}
 	//sem_post(&cache_lock);
-    temp_lock_val = pthread_mutex_unlock(&lock);
+        temp_lock_val = pthread_mutex_unlock(&lock);
 	printf("Remove Cache Lock Unlocked %d\n",temp_lock_val); 
-    return site;
+       return site;
 }
 
 void remove_cache_element(){
